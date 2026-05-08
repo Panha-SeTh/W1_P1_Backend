@@ -1,4 +1,4 @@
-
+import fs from "fs";
 import { Duration } from "../model/Duration.js";
 import { RaceResult } from "../model/RaceResult.js";
 
@@ -23,6 +23,7 @@ export class RaceResultsService {
    */
   addRaceResult(result) {
     // TODO
+    this._raceResults.push(result);
   }
 
   /**
@@ -31,6 +32,8 @@ export class RaceResultsService {
    */
   saveToFile(filePath) {
     // TODO
+    const json = JSON.stringify(this._raceResults);
+    fs.writeFileSync(filePath, json);
   }
 
   /**
@@ -40,6 +43,9 @@ export class RaceResultsService {
    */
   loadFromFile(filePath) {
     // TODO
+    const json = fs.readFileSync(filePath, 'utf8');
+    this._raceResults = JSON.parse(json);
+    return true; 
   }
 
   /**
@@ -50,6 +56,8 @@ export class RaceResultsService {
    */
   getTimeForParticipant(participantId, sport) {
        // TODO
+       const result = this._raceResults.find(r => r.participant === participantId && r.sport === sport);
+       return result ? result.duration : null;
   }
 
   /**
@@ -59,5 +67,8 @@ export class RaceResultsService {
    */
   getTotalTimeForParticipant(participantId) {
         // TODO
+        const results = this._raceResults.filter(r => r.participant === participantId);
+        if (results.length === 0) return null;
+        return results.reduce((acc, r) => acc.plus(r.duration), new Duration(0));
   }
 }

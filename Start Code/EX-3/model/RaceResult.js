@@ -5,4 +5,14 @@ import { Duration } from "./Duration.js";
 export class RaceResult {
 
        // TODO
+       /**
+            * @param {string} participantId 
+            * @param {string} sport 
+            * @param {Duration} duration 
+            */
+      constructor(participant, sport, duration) {
+         this.participant = participant;
+         this.sport = sport;
+         this.duration = duration;
+      }
   }
